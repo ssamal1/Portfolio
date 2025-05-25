@@ -1,0 +1,53 @@
+/* styles/globals.css */
+
+
+/* 1. Gentle Tide Gradient */
+@keyframes tide {
+  0%, 100% { background-size: 100% 100%; }
+  50%      { background-size: 110% 110%; }
+}
+body {
+  background: linear-gradient(90deg, #f8f4ec, #d9f1f9);
+  background-size: 100% 100%;
+  animation: tide 20s ease-in-out infinite;
+}
+
+/* 2. Wave Drift (requires public/wave.svg) */
+
+
+/* 3. Sun Glint Shimmer */
+.shimmer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  /* Wider, more opaque glint: */
+  background: linear-gradient(
+    45deg,
+    rgba(255,255,255,0) 30%,
+    rgba(255,255,255,0.4) 50%,
+    rgba(255,255,255,0) 70%
+  );
+  /* Slight blur to spread the highlight: */
+  filter: blur(2px);
+  /* Faster sweep: */
+  animation: shimmer 16s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  from { transform: translateX(-120%); }
+  to   { transform: translateX(120%); }
+}
+/* 4. Floating Cloud */
+.cloud {
+  position: absolute;
+  top: 10%;
+  left: -25%;
+  width: 200px;
+  opacity: 0.25;
+  background: url('/cloud.svg') no-repeat center;
+  background-size: contain;
+  animation: cloud-float 60s linear infinite;
+}
+@keyframes cloud-float {
+  to { transform: translateX(125vw); }
+}
