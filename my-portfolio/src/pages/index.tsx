@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 export default function Home() {
   const words = [
@@ -10,6 +10,34 @@ export default function Home() {
   ]
   const [index, setIndex] = useState(0)
   const [fade, setFade] = useState<'fade-in' | 'fade-out'>('fade-in')
+  const [darkMode, setDarkMode] = useState(false)
+  const navRef = useRef<HTMLElement>(null)
+  const [hoveredLink, setHoveredLink] = useState({
+    left: 0,
+    width: 0,
+    opacity: 0,
+  })
+
+  // Glassy translucent header in dark mode
+  const headerStyle = darkMode ? {
+    background: 'rgba(0,0,0,0.45)',
+    border: '1.5px solid rgba(255,255,255,0.35)',
+    boxShadow: '0 8px 40px 0 rgba(0,0,0,0.60), 0 2px 24px 0 rgba(255,255,255,0.08)',
+    color: '#ffffff',
+    WebkitBackdropFilter: 'blur(26px) saturate(1.6)',
+    backdropFilter: 'blur(26px) saturate(1.6)'
+  } : {}
+
+  // Sync page background via CSS variable for full-page coverage
+  useEffect(() => {
+    const color = darkMode ? '#000' : '#f8f4ec';
+    const primary = darkMode ? '#eaeaea' : '#26324b';
+    const secondary = darkMode ? '#cccccc' : '#444444';
+    document.documentElement.style.setProperty('--page-bg', color);
+    document.documentElement.style.setProperty('--text-primary', primary);
+    document.documentElement.style.setProperty('--text-secondary', secondary);
+    document.body.style.background = color;
+  }, [darkMode]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -26,10 +54,80 @@ export default function Home() {
     <>
       <div style={{
         minHeight: '100vh',
-        background: '#f8f4ec'
+        background: darkMode ? '#000' : '#f8f4ec'
       }}>
-        <header className="blur-header">
-          <span className="header-title">Sanat Samal</span>
+        <header className={`blur-header ${darkMode ? 'dark' : ''}`}>
+          <nav
+            className="blur-nav"
+            ref={navRef}
+            onMouseLeave={() => setHoveredLink(prev => ({ ...prev, opacity: 0 }))}
+          >
+            <div className="nav-highlighter" style={hoveredLink} />
+            <a
+              className="blur-nav-link"
+              href="#about"
+              onMouseEnter={e => {
+                if (navRef.current) {
+                  setHoveredLink({
+                    left: e.currentTarget.offsetLeft,
+                    width: e.currentTarget.offsetWidth,
+                    opacity: 1,
+                  });
+                }
+              }}
+            >
+              About
+            </a>
+            <a
+              className="blur-nav-link"
+              href="#cv"
+              onMouseEnter={e => {
+                if (navRef.current) {
+                  setHoveredLink({
+                    left: e.currentTarget.offsetLeft,
+                    width: e.currentTarget.offsetWidth,
+                    opacity: 1,
+                  });
+                }
+              }}
+            >
+              CV
+            </a>
+            <a
+              className="blur-nav-link"
+              href="#projects"
+              onMouseEnter={e => {
+                if (navRef.current) {
+                  setHoveredLink({
+                    left: e.currentTarget.offsetLeft,
+                    width: e.currentTarget.offsetWidth,
+                    opacity: 1,
+                  });
+                }
+              }}
+            >
+              Projects
+            </a>
+          </nav>
+            <button
+              className={`night-toggle ${darkMode ? 'dark' : ''}`}
+              onClick={() => setDarkMode(!darkMode)}
+              aria-label="Toggle dark mode"
+            >
+              <span className="sun">
+                <span className="ray"></span>
+                <span className="ray"></span>
+                <span className="ray"></span>
+                <span className="ray"></span>
+                <span className="ray"></span>
+                <span className="ray"></span>
+                <span className="ray"></span>
+                <span className="ray"></span>
+              </span>
+              <svg className="moon" viewBox="0 0 24 24" width="24" height="24" strokeWidth="1.5" stroke="#000" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+              </svg>
+            </button>
         </header>
         <div style={{
           minHeight: '100vh',
@@ -65,7 +163,7 @@ export default function Home() {
             <h1 style={{
               fontSize: 56,
               fontWeight: 800,
-              color: '#222',
+              color: darkMode ? '#eaeaea' : '#222',
               margin: 0,
               fontFamily: 'inherit',
               letterSpacing: 0.01
@@ -75,7 +173,7 @@ export default function Home() {
             <h2 className={fade} style={{
               fontSize: 36,
               fontWeight: 500,
-              color: '#555',
+              color: darkMode ? '#cccccc' : '#555',
               margin: '18px 0 0 2px',
               minHeight: 44,
               transition: 'opacity 0.5s',
@@ -101,45 +199,36 @@ export default function Home() {
           transition: opacity 0.5s ease-out;
         }
         .blur-header {
+          /* Common styles */
           position: fixed;
           top: 2rem;
           left: 50%;
           transform: translateX(-50%);
-          width: min(90vw, 500px);
-          min-width: 200px;
+          width: min(90vw, 700px);
+          min-width: 340px;
           min-height: 54px;
-          padding: 0.5rem 2.2rem;
+          padding: 1.1rem 2.8rem;
           z-index: 1000;
-          border-radius: 2.8rem 2.5rem 3.2rem 2.7rem / 2.7rem 3.1rem 2.6rem 3.3rem;
+          border-radius: 9999px;
           display: flex;
           align-items: center;
           justify-content: center;
-          background: linear-gradient(120deg, rgba(255,255,255,0.60) 60%, rgba(220,230,255,0.32) 100%);
-          border: 1.5px solid rgba(255,255,255,0.55);
-          box-shadow: 0 8px 40px 0 rgba(60,60,120,0.18), 0 2px 24px 0 rgba(180,200,255,0.13);
-          -webkit-backdrop-filter: blur(22px) saturate(1.6);
-          backdrop-filter: blur(22px) saturate(1.6);
           will-change: backdrop-filter;
           font-size: 1.5rem;
           font-weight: 600;
           letter-spacing: 0.04em;
-          color: #222;
           overflow: hidden;
-          position: fixed;
+
+          /* Light Mode Styles */
+          background: rgba(255, 255, 255, 0.6);
+          border: 1.5px solid rgba(255,255,255,0.55);
+          box-shadow: 0 8px 40px 0 rgba(60,60,120,0.18), 0 2px 24px 0 rgba(180,200,255,0.13);
+          -webkit-backdrop-filter: blur(22px) saturate(1.6);
+          backdrop-filter: blur(22px) saturate(1.6);
+          color: #222;
         }
-        .blur-header::before {
-          content: '';
-          position: absolute;
-          top: 8px;
-          left: 24px;
-          right: 24px;
-          height: 28%;
-          border-radius: 2rem 2rem 1.5rem 1.5rem / 1.5rem 1.5rem 2rem 2rem;
-          background: linear-gradient(120deg, rgba(255,255,255,0.23) 0%, rgba(255,255,255,0.03) 100%);
-          pointer-events: none;
-          filter: blur(1.7px);
-          opacity: 0.38;
-        }
+
+
         .blur-header::after {
           content: '';
           position: absolute;
@@ -147,6 +236,144 @@ export default function Home() {
           border-radius: inherit;
           box-shadow: inset 0 1.5px 12px 0 rgba(200,210,255,0.09);
           pointer-events: none;
+        }
+        .blur-nav {
+          position: relative; /* For the highlighter */
+          display: flex;
+          gap: 1.0rem;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+        }
+        .blur-nav-link {
+          font-size: 1.38rem;
+          font-weight: 600;
+          text-decoration: none;
+          letter-spacing: 0.02em;
+          padding: 0.7em 3.1em;
+          border-radius: 2.2em;
+          transition: color 0.18s;
+          color: #222;
+          z-index: 1; /* Keep links on top */
+        }
+        .blur-nav-link:focus {
+          outline: none;
+        }
+        .nav-highlighter {
+          position: absolute;
+          top: 0;
+          height: 100%;
+          background: rgba(0,0,0,0.08); /* Match light mode toggle hover */
+          border-radius: 9999px;
+          transition: left 0.25s cubic-bezier(0.25, 0.1, 0.25, 1), width 0.25s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.15s linear, background 0.3s ease;
+          pointer-events: none;
+          z-index: 0;
+        }
+        .dark .nav-highlighter {
+          background: rgba(255,255,255,0.1); /* Match dark mode toggle hover */
+        }
+
+
+
+        .night-toggle {
+          position: absolute;
+          right: 24px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 40px;
+          height: 40px;
+          background: none;
+          border: none;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+          overflow: hidden;
+          transition: all 0.3s ease;
+        }
+        .night-toggle:hover {
+          background: rgba(0,0,0,0.08);
+        }
+        .night-toggle .sun, .night-toggle .moon {
+          position: absolute;
+          transition: all 0.4s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+        }
+        .night-toggle .sun {
+          width: 8px; /* Make circle smaller */
+          height: 8px;
+          border-radius: 50%;
+          background: transparent; /* Hollow out the circle */
+          border: 2px solid #333; /* Create the outline */
+          transform: scale(1);
+          opacity: 1;
+        }
+        .night-toggle .sun .ray {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 2px;
+          height: 5px;
+          margin-left: -1px;
+          margin-top: -2.5px;
+          background: #333;
+          border-radius: 2px;
+          transform-origin: center;
+          transition: all 0.4s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+        }
+        .night-toggle .sun .ray:nth-child(1) { transform: rotate(0deg) translateY(-12px); }
+        .night-toggle .sun .ray:nth-child(2) { transform: rotate(45deg) translateY(-12px); }
+        .night-toggle .sun .ray:nth-child(3) { transform: rotate(90deg) translateY(-12px); }
+        .night-toggle .sun .ray:nth-child(4) { transform: rotate(135deg) translateY(-12px); }
+        .night-toggle .sun .ray:nth-child(5) { transform: rotate(180deg) translateY(-12px); }
+        .night-toggle .sun .ray:nth-child(6) { transform: rotate(225deg) translateY(-12px); }
+        .night-toggle .sun .ray:nth-child(7) { transform: rotate(270deg) translateY(-12px); }
+        .night-toggle .sun .ray:nth-child(8) { transform: rotate(315deg) translateY(-12px); }
+
+        .night-toggle .moon {
+          width: 24px; /* Larger */
+          height: 24px;
+          position: relative;
+          transform: scale(0);
+          opacity: 0;
+          transition: all 0.4s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+        }
+        
+        /* removed */
+          content: '';
+          position: absolute;
+          inset: 0;
+          border: 2px solid #fff;
+          border-radius: 50%;
+        }
+        
+        /* removed */
+          content: '';
+          position: absolute;
+          top: 2px;
+          left: 8px; /* shift right to create crescent facing upward-right */
+          width: 20px;
+          height: 20px;
+          background: #000;
+          border-radius: 50%;
+        }
+
+        .night-toggle.dark {
+          transform: translateY(-50%); /* Remove rotation */
+        }
+        .night-toggle.dark:hover {
+          background: rgba(255,255,255,0.1);
+        }
+        .night-toggle.dark .sun {
+          transform: scale(0);
+          opacity: 0;
+        }
+        .night-toggle.dark .moon {
+          transform: scale(1);
+          opacity: 1;
+        }
+        .night-toggle:focus {
+          outline: none;
         }
         .about-me-section {
           max-width: 540px;
@@ -157,16 +384,18 @@ export default function Home() {
           align-items: center;
         }
         .about-me-section h2 {
+          color: ${darkMode ? '#eee' : '#2a2a2a'};
           margin: 0 0 18px 0;
           font-size: 2.2rem;
-          color: #2a2a2a;
+
           font-weight: 700;
         }
         .about-me-text {
+          color: ${darkMode ? '#ddd' : '#444'};
           margin: 0;
           font-size: 1.35rem;
           line-height: 1.7;
-          color: #444;
+
           text-align: center;
           font-weight: 400;
           letter-spacing: 0.01em;
@@ -174,8 +403,24 @@ export default function Home() {
         }
       `}</style>
       <style jsx global>{`
+        :root {
+          --page-bg: #f8f4ec;
+          --text-primary: #26324b;
+          --text-secondary: #444444;
+          --page-bg: #f8f4ec;
+        }
+        /* fixed header link color */
+        .blur-header .blur-nav-link { color: #26324b !important; }
+        /* dynamic color bindings */
+        .about-me-section h2 {
+          color: var(--text-primary);
+        }
+        .about-me-text {
+          color: var(--text-secondary);
+        }
+
         html, body {
-          background: #f8f4ec;
+          background: var(--page-bg);
           margin: 0;
           padding: 0;
           min-height: 100vh;
