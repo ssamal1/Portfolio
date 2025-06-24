@@ -11,12 +11,47 @@ export default function Home() {
   const [index, setIndex] = useState(0)
   const [fade, setFade] = useState<'fade-in' | 'fade-out'>('fade-in')
   const [darkMode, setDarkMode] = useState(false)
+  const [headerReady, setHeaderReady] = useState(false)
+  const [themeReady, setThemeReady] = useState(false)
+  const toggleDarkMode = () => {
+    setDarkMode(prev => {
+      const next = !prev;
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('theme', next ? 'dark' : 'light');
+      }
+      return next;
+    });
+  };
+
   const navRef = useRef<HTMLElement>(null)
   const [hoveredLink, setHoveredLink] = useState({
     left: 0,
     width: 0,
     opacity: 0,
   })
+
+  useEffect(() => {
+    // after mount: sync dark mode from storage & trigger header animation
+    const stored = localStorage.getItem('theme');
+    if (stored === 'dark') setDarkMode(true);
+    setThemeReady(true);
+    const t = setTimeout(() => setHeaderReady(true), 60);
+    return () => clearTimeout(t);
+  }, []);
+
+  // Restore scroll position on page load & save on scroll
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const saved = sessionStorage.getItem('scrollY');
+    if (saved) {
+      window.scrollTo(0, parseInt(saved, 10));
+    }
+    const handleScroll = () => {
+      sessionStorage.setItem('scrollY', String(window.scrollY));
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Glassy translucent header in dark mode
   const headerStyle = darkMode ? {
@@ -109,9 +144,10 @@ export default function Home() {
               Projects
             </a>
           </nav>
+          {themeReady && (
             <button
               className={`night-toggle ${darkMode ? 'dark' : ''}`}
-              onClick={() => setDarkMode(!darkMode)}
+              onClick={toggleDarkMode}
               aria-label="Toggle dark mode"
             >
               <span className="sun">
@@ -128,8 +164,9 @@ export default function Home() {
                 <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
               </svg>
             </button>
+            )}
         </header>
-        <div style={{
+        <div className={headerReady ? 'upfade-enter' : 'upfade-init'} style={{
           minHeight: '100vh',
           display: 'flex',
           alignItems: 'center',
@@ -183,7 +220,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <section className="about-me-section">
+      <section className={`about-me-section ${headerReady ? 'upfade-enter' : 'upfade-init'}`}>
         <h2>About Me</h2>
         <p className="about-me-text">
           I am an insatiably curious software engineer, machine learning researcher, systems tinkerer, and competitive mathematician. I love diving deep into anything that sparks my interest—whether it’s peeling back the layers of a large-language model, implementing file-system syscalls, or experimenting with tropical fruit trees that shouldn’t survive in Southern California.
@@ -195,15 +232,38 @@ export default function Home() {
           transition: opacity 0.5s ease-in;
         }
         .fade-out {
+          /* existing fade-out */
           opacity: 0;
           transition: opacity 0.5s ease-out;
         }
+
+        /* -------- entrance rise + fade ---------- */
+        .upfade-init {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        .upfade-enter {
+          opacity: 1;
+          transform: translateY(0);
+          transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .blur-header {
+          transform-origin: center;
+          transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .blur-header.init {
+          transform: translateX(-50%) scaleX(0);
+        }
+        .blur-header.enter {
+          transform: translateX(-50%) scaleX(1);
+        }
+
         .blur-header {
           /* Common styles */
           position: fixed;
           top: 2rem;
           left: 50%;
-          transform: translateX(-50%);
+           transform: translateX(-50%);
           width: min(90vw, 700px);
           min-width: 340px;
           min-height: 54px;
