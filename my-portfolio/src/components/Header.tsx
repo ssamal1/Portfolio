@@ -25,21 +25,22 @@ export default function Header({
           onMouseLeave={() => setHoveredLink(prev => ({ ...prev, opacity: 0 }))}
         >
           <div className="nav-highlighter" style={hoveredLink} />
-          <a
-            className="blur-nav-link"
-            href="#about"
-            onMouseEnter={e => {
-              if (navRef.current) {
-                setHoveredLink({
-                  left: e.currentTarget.offsetLeft,
-                  width: e.currentTarget.offsetWidth,
-                  opacity: 1,
-                });
-              }
-            }}
-          >
-            About
-          </a>
+          <Link href="/" legacyBehavior>
+            <a
+              className="blur-nav-link"
+              onMouseEnter={e => {
+                if (navRef.current) {
+                  setHoveredLink({
+                    left: e.currentTarget.offsetLeft,
+                    width: e.currentTarget.offsetWidth,
+                    opacity: 1,
+                  });
+                }
+              }}
+            >
+              About
+            </a>
+          </Link>
           <Link href="/cv" legacyBehavior>
             <a
               className="blur-nav-link"
@@ -96,10 +97,10 @@ export default function Header({
       </header>
       <style jsx>{`
         .blur-header.dark {
-          background: rgba(0,0,0,0.45);
-          border: 1.5px solid rgba(255,255,255,0.35);
-          box-shadow: 0 8px 40px 0 rgba(0,0,0,0.60), 0 2px 24px 0 rgba(255,255,255,0.08);
-          color: #ffffff;
+          background: rgba(255,255,255,0.45); /* More transparent white for better blur */
+          border: 1.5px solid rgba(0,0,0,0.10);
+          box-shadow: 0 8px 40px 0 rgba(0,0,0,0.10), 0 2px 24px 0 rgba(0,0,0,0.06);
+          color: #000000; /* Black text for contrast */
           -webkit-backdrop-filter: blur(26px) saturate(1.6);
           backdrop-filter: blur(26px) saturate(1.6);
         }
