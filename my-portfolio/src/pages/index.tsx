@@ -1,11 +1,12 @@
 import Image from 'next/image'
 import { useState, useEffect, useRef } from 'react'
+import Header from '../components/Header'
 
 export default function Home() {
   const words = [
     'Software Developer',
     'Researcher',
-    'CS Student',
+    'Computer Science Student',
     'Mathematician',
   ]
   const [index, setIndex] = useState(0)
@@ -91,81 +92,14 @@ export default function Home() {
         minHeight: '100vh',
         background: darkMode ? '#000' : '#f8f4ec'
       }}>
-        <header className={`blur-header ${darkMode ? 'dark' : ''}`}>
-          <nav
-            className="blur-nav"
-            ref={navRef}
-            onMouseLeave={() => setHoveredLink(prev => ({ ...prev, opacity: 0 }))}
-          >
-            <div className="nav-highlighter" style={hoveredLink} />
-            <a
-              className="blur-nav-link"
-              href="#about"
-              onMouseEnter={e => {
-                if (navRef.current) {
-                  setHoveredLink({
-                    left: e.currentTarget.offsetLeft,
-                    width: e.currentTarget.offsetWidth,
-                    opacity: 1,
-                  });
-                }
-              }}
-            >
-              About
-            </a>
-            <a
-              className="blur-nav-link"
-              href="#cv"
-              onMouseEnter={e => {
-                if (navRef.current) {
-                  setHoveredLink({
-                    left: e.currentTarget.offsetLeft,
-                    width: e.currentTarget.offsetWidth,
-                    opacity: 1,
-                  });
-                }
-              }}
-            >
-              CV
-            </a>
-            <a
-              className="blur-nav-link"
-              href="#projects"
-              onMouseEnter={e => {
-                if (navRef.current) {
-                  setHoveredLink({
-                    left: e.currentTarget.offsetLeft,
-                    width: e.currentTarget.offsetWidth,
-                    opacity: 1,
-                  });
-                }
-              }}
-            >
-              Projects
-            </a>
-          </nav>
-          {themeReady && (
-            <button
-              className={`night-toggle ${darkMode ? 'dark' : ''}`}
-              onClick={toggleDarkMode}
-              aria-label="Toggle dark mode"
-            >
-              <span className="sun">
-                <span className="ray"></span>
-                <span className="ray"></span>
-                <span className="ray"></span>
-                <span className="ray"></span>
-                <span className="ray"></span>
-                <span className="ray"></span>
-                <span className="ray"></span>
-                <span className="ray"></span>
-              </span>
-              <svg className="moon" viewBox="0 0 24 24" width="24" height="24" strokeWidth="1.5" stroke="#000" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
-              </svg>
-            </button>
-            )}
-        </header>
+        <Header
+          navRef={navRef}
+          hoveredLink={hoveredLink}
+          setHoveredLink={setHoveredLink}
+          darkMode={darkMode}
+          themeReady={themeReady}
+          toggleDarkMode={toggleDarkMode}
+        />
         <div className={headerReady ? 'upfade-enter' : 'upfade-init'} style={{
           minHeight: '100vh',
           display: 'flex',
