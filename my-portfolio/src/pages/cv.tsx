@@ -168,7 +168,18 @@ export default function CV() {
       </main>
 
       <style jsx>{`
+        @keyframes fade-in-up {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
         .cv-container {
+          animation: fade-in-up 0.6s ease-out forwards;
           color: ${darkMode ? '#fff' : '#000'};
           width: 100%;
           max-width: 800px;
