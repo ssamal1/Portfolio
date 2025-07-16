@@ -1,8 +1,14 @@
 import Image from 'next/image'
 import { useState, useEffect, useRef } from 'react'
+import { useInView } from 'react-intersection-observer'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 export default function Home() {
+  const [aboutSectionRef, inView] = useInView({
+    threshold: 0.1,
+    triggerOnce: true
+  });
   const words = [
     'Software Developer',
     'Researcher',
@@ -154,12 +160,57 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <section className={`about-me-section ${headerReady ? 'upfade-enter' : 'upfade-init'}`}>
-        <h2>About Me</h2>
-        <p className="about-me-text">
-          I am an insatiably curious software engineer, machine learning researcher, systems tinkerer, and competitive mathematician. I love diving deep into anything that sparks my interest—whether it’s peeling back the layers of a large-language model, implementing file-system syscalls, or experimenting with tropical fruit trees that shouldn’t survive in Southern California.
-        </p>
+      <section 
+        className={`about-me-section ${headerReady ? 'upfade-enter' : 'upfade-init'} ${inView ? 'animate-in' : ''}`} 
+        style={{
+          maxWidth: '720px',
+          margin: '4rem auto 8rem',
+          padding: '3rem 2.5rem',
+          textAlign: 'left',
+          position: 'relative',
+          background: darkMode ? 'rgba(22, 40, 70, 0.85)' : 'rgba(255, 255, 255, 0.7)',
+          borderRadius: '16px',
+          boxShadow: darkMode 
+            ? '0 10px 30px -15px rgba(2, 12, 27, 0.7)' 
+            : '0 10px 30px -15px rgba(0, 0, 0, 0.1)',
+          transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+          transform: inView ? 'translateY(0)' : 'translateY(20px)',
+          opacity: inView ? 1 : 0,
+          backdropFilter: 'blur(10px)',
+          willChange: 'transform, opacity'
+        }}
+        ref={aboutSectionRef}
+      >
+        <div className="about-divider" />
+        <h2 className="about-title">About Me</h2>
+        <div className="about-me-content">
+          <p className="about-me-text">
+            I'm a Computer Science student at UC San Diego (Regents Scholar) with a passion for building impactful technology. I thrive at the intersection of rigorous problem-solving and creative exploration, whether I'm developing systems, training machine learning models, or prototyping new ideas.
+          </p>
+          
+          <p className="about-me-text">
+            My academic journey at UCSD has been shaped by challenging coursework including:
+          </p>
+          
+          <ul className="coursework-list">
+            <li><strong>Advanced Data Structures</strong> - Memory-efficient trees and graphs</li>
+            <li><strong>Algorithms</strong> - Optimization and complexity analysis</li>
+            <li><strong>Theory of Computing</strong> - Automata, computability, and complexity</li>
+            <li><strong>Machine Learning</strong> - Neural networks, SVMs, and decision trees</li>
+            <li><strong>Digital Systems</strong> - Digital logic and computer organization</li>
+            <li><strong>Computer Vision</strong> - Image processing and pattern recognition</li>
+            <li><strong>Operating Systems</strong> - Process management and concurrency</li>
+            <li><strong>Computer Architecture</strong> - Hardware-software interaction</li>
+          </ul>
+
+          <p className="about-me-text">
+            When I'm not coding, you can find me on the basketball court, playing soccer, or strumming my guitar. I'm particularly excited about AI's potential to transform human-computer interaction and am always looking for opportunities to push the boundaries of what's possible with technology.
+          </p>
+        </div>
       </section>
+      
+      <Footer />
+      
       <style jsx>{`
         .fade-in {
           opacity: 1;
@@ -395,14 +446,151 @@ export default function Home() {
           letter-spacing: 0.01em;
           padding: 0 4px;
         }
+        .about-me-content {
+          max-width: 100%;
+          text-align: left;
+        }
+        
+        .about-me-text {
+          font-size: 1.15rem;
+          line-height: 1.85;
+          color: var(--text-secondary);
+          margin-bottom: 1.6rem;
+          text-align: left;
+          fontWeight: 400;
+          letterSpacing: '0.01em';
+        }
+        
+        .about-divider {
+          position: absolute;
+          left: 1.5rem;
+          top: 1.5rem;
+          height: 4px;
+          width: 60px;
+          background: var(--divider-color);
+          border-radius: 2px;
+        }
+        
+        .about-title {
+          text-align: left;
+          margin: 0 0 2.5rem 0;
+          padding-top: 3.5rem;
+          color: var(--title-color);
+          font-size: 2.2rem;
+          font-weight: 700;
+          letter-spacing: -0.01em;
+        }
+        
+        .about-me-text:first-of-type {
+          position: relative;
+          padding-left: 1.5rem;
+          border-left: 2px solid var(--border-color);
+        }
+        
+        .coursework-list {
+          margin: 1.5rem 0 2rem 0.5rem;
+          padding: 0;
+          list-style-type: none;
+          font-size: 1.1rem;
+          line-height: 1.9;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 0.5rem 1.5rem;
+        }
+        
+        .coursework-list li {
+          position: relative;
+          padding: 0.4rem 0 0.4rem 1.5rem;
+          line-height: 1.6;
+          color: var(--text-secondary);
+          transition: all 0.2s ease;
+          border-radius: 6px;
+        }
+        
+        .coursework-list li:hover {
+          background: var(--hover-bg);
+          transform: translateX(2px);
+        }
+        
+        .coursework-list li:before {
+          content: '▹';
+          position: absolute;
+          left: 0;
+          color: var(--bullet-color);
+          font-size: 1.1em;
+          line-height: 1.5;
+        }
+        
+        .coursework-list strong {
+          color: var(--text-primary);
+          font-weight: 600;
+        }
+        
+        .contact-footer {
+          text-align: center;
+          padding: 3rem 0 4rem;
+          margin-top: 2rem;
+          border-top: 1px solid var(--border-color);
+        }
+        
+        .contact-links {
+          display: flex;
+          justify-content: center;
+          gap: 2rem;
+          margin-bottom: 1.5rem;
+        }
+        
+        .contact-link {
+          color: var(--text-secondary);
+          transition: all 0.3s ease;
+          display: inline-flex;
+          padding: 0.5rem;
+          border-radius: 50%;
+        }
+        
+        .contact-link:hover {
+          color: var(--accent-color);
+          transform: translateY(-3px);
+          background: var(--hover-bg);
+        }
+        
+        .contact-link svg {
+          width: 24px;
+          height: 24px;
+        }
+        
+        @media (prefers-reduced-motion: no-preference) {
+          .about-me-section {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          
+          .about-me-section.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
       `}</style>
       <style jsx global>{`
         :root {
           --page-bg: #f8f4ec;
           --text-primary: #26324b;
           --text-secondary: #444444;
-          --page-bg: #f8f4ec;
+          --divider-color: rgba(0,0,0,0.1);
+          --title-color: #222;
+          --border-color: rgba(0,0,0,0.08);
+          --hover-bg: rgba(0,0,0,0.02);
+          --bullet-color: #3b82f6;
         }
+        
+        [data-theme='dark'] {
+          --divider-color: rgba(255,255,255,0.15);
+          --title-color: #eaeaea;
+          --border-color: rgba(255,255,255,0.1);
+          --hover-bg: rgba(255,255,255,0.03);
+          --bullet-color: #4a90e2;
+          --accent-color: #4a90e2;
+        }  
         /* fixed header link color */
         .blur-header .blur-nav-link { color: #26324b !important; }
         /* dynamic color bindings */

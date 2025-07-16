@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 export default function CV() {
   const [darkMode, setDarkMode] = useState(false);
@@ -16,6 +17,7 @@ export default function CV() {
     if (stored === 'dark') setDarkMode(true);
     setThemeReady(true);
   }, []);
+
   const toggleDarkMode = () => {
     setDarkMode(prev => {
       const next = !prev;
@@ -25,6 +27,7 @@ export default function CV() {
       return next;
     });
   };
+
   useEffect(() => {
     const color = darkMode ? '#000' : '#f8f4ec';
     const primary = darkMode ? '#eaeaea' : '#26324b';
@@ -47,7 +50,6 @@ export default function CV() {
       />
       <main className="cv-container">
         <h1 className="cv-title">Curriculum Vitae</h1>
-
         <section className="cv-section">
           <h2 className="section-title">Education</h2>
           <div className="entry">
@@ -161,10 +163,6 @@ export default function CV() {
             <p><b>Developer Tools:</b> VS Code, Xcode, Linux, Github, Google Cloud Platform, Docker</p>
           </div>
         </section>
-
-
-
-
       </main>
 
       <style jsx>{`
@@ -271,8 +269,7 @@ export default function CV() {
           text-decoration: underline;
         }
       `}</style>
-
-      <div style={{ height: 200 }}></div>
+      <Footer />
     </div>
   );
 }

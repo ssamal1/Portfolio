@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
+import Link from 'next/link';
 
 export default function Projects() {
   const [darkMode, setDarkMode] = useState(false);
@@ -46,18 +48,36 @@ export default function Projects() {
         <h1 className="projects-title">My Projects</h1>
         <div className="projects-grid">
           {/* Placeholder for projects */}
-          <div className="project-card">
-            <h3>Project Title 1</h3>
-            <p>A brief description of the project goes here. Talk about the technology stack and your role.</p>
-          </div>
-          <div className="project-card">
-            <h3>Project Title 2</h3>
-            <p>A brief description of the project goes here. Talk about the technology stack and your role.</p>
-          </div>
-          <div className="project-card">
-            <h3>Project Title 3</h3>
-            <p>A brief description of the project goes here. Talk about the technology stack and your role.</p>
-          </div>
+          <Link href="/projects/margo" passHref legacyBehavior>
+            <div className="project-card">
+              <h3>Margo</h3>
+              <p>A WebGL/GLSL level-set solver for 2D fluid dynamics and game theory with real-time visualization and GPU acceleration.</p>
+            </div>
+          </Link>
+          <Link href="/projects/upnow" passHref legacyBehavior>
+            <div className="project-card">
+              <h3>UpNow</h3>
+              <p>An iOS alarm app that generates and adapts unique AI-composed melodies based on your wake-up patterns to help you wake up more naturally.</p>
+            </div>
+          </Link>
+          <Link href="/projects/thia" passHref legacyBehavior>
+            <div className="project-card">
+              <h3>THIA</h3>
+              <p>An AI therapist that uses NLP and sentiment analysis to provide personalized mental health support through natural conversations.</p>
+            </div>
+          </Link>
+          <Link href="/projects/orca" passHref legacyBehavior>
+            <div className="project-card">
+              <h3>ORCA</h3>
+              <p>An AI music production platform that generates editable sheet music with audio, preserving musical creativity and expression.</p>
+            </div>
+          </Link>
+          <Link href="/projects/covid-funding" passHref legacyBehavior>
+            <div className="project-card">
+              <h3>COVID Funding Analysis</h3>
+              <p>Geospatial analysis of CARES Act spending to identify effective COVID-19 mitigation strategies in California.</p>
+            </div>
+          </Link>
         </div>
       </main>
 
@@ -109,6 +129,13 @@ export default function Projects() {
           background: rgb(var(--bg-rgb));
           border: 1px solid rgba(var(--highlight-rgb), 0.1);
           transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+          text-decoration: none;
+          color: inherit;
+          display: block;
+        }
+
+        .project-card {
+          cursor: pointer;
         }
 
         .project-card:hover {
@@ -132,13 +159,18 @@ export default function Projects() {
         .project-card h3 {
           margin: 0 0 1rem 0;
           font-size: 20px;
+          text-decoration: none;
+          color: ${darkMode ? '#fff' : '#000'};
         }
         .project-card p {
           font-size: 16px;
           line-height: 1.6;
           color: ${darkMode ? '#ccc' : '#333'};
+          text-decoration: none;
+          margin: 0;
         }
       `}</style>
+      <Footer />
     </div>
   );
 }
