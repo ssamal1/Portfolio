@@ -1,0 +1,46 @@
+.backButton {
+  --text-color: rgba(0, 0, 0, 0.8);
+  --bg-color: rgba(0, 0, 0, 0.03);
+  --hover-color: #000;
+  --hover-bg: rgba(0, 0, 0, 0.05);
+  
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0.5rem 1rem 0.5rem 0.75rem;
+  border-radius: 6px;
+  background-color: var(--bg-color);
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+}
+
+.backButton:hover {
+  color: var(--hover-color);
+  background-color: var(--hover-bg);
+  transform: translateX(-4px);
+}
+
+.arrowContainer {
+  display: inline-flex;
+  margin-right: 8px;
+  width: 16px;
+  justify-content: flex-start;
+  overflow: visible;
+}
+
+.arrow {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 16px;
+  transform: translateX(0);
+}
+
+.backButton:hover .arrow {
+  transform: translateX(-4px);
+}

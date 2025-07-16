@@ -1,0 +1,157 @@
+
+.blur-header {
+  transform-origin: center;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  position: fixed;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(90vw, 700px);
+  min-width: 340px;
+  min-height: 54px;
+  padding: 1.1rem 2.8rem;
+  z-index: 1000;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: backdrop-filter;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1.5px solid rgba(255,255,255,0.55);
+  box-shadow: 0 8px 40px 0 rgba(60,60,120,0.18), 0 2px 24px 0 rgba(180,200,255,0.13);
+  -webkit-backdrop-filter: blur(22px) saturate(1.6);
+  backdrop-filter: blur(22px) saturate(1.6);
+  color: #222;
+}
+.blur-header.dark {
+  background: rgba(0,0,0,0.45);
+  border: 1.5px solid rgba(255,255,255,0.35);
+  box-shadow: 0 8px 40px 0 rgba(0,0,0,0.60), 0 2px 24px 0 rgba(255,255,255,0.08);
+  color: #fff;
+}
+.blur-header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 1.5px 12px 0 rgba(200,210,255,0.09);
+  pointer-events: none;
+}
+.blur-nav {
+  position: relative;
+  display: flex;
+  gap: 1.0rem;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.blur-nav-link {
+  font-size: 1.38rem;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  padding: 0.7em 3.1em;
+  border-radius: 2.2em;
+  transition: color 0.18s;
+  color: #222;
+  z-index: 1;
+}
+.blur-nav-link:focus {
+  outline: none;
+}
+.nav-highlighter {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: rgba(0,0,0,0.08);
+  border-radius: 9999px;
+  transition: left 0.25s cubic-bezier(0.25, 0.1, 0.25, 1), width 0.25s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.15s linear, background 0.3s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.dark .nav-highlighter {
+  background: rgba(255,255,255,0.1);
+}
+.night-toggle {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.night-toggle:hover {
+  background: rgba(0,0,0,0.08);
+}
+.night-toggle .sun, .night-toggle .moon {
+  position: absolute;
+  transition: all 0.4s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+.night-toggle .sun {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid #333;
+  transform: scale(1);
+  opacity: 1;
+}
+.night-toggle .sun .ray {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 5px;
+  margin-left: -1px;
+  margin-top: -2.5px;
+  background: #333;
+  border-radius: 2px;
+  transform-origin: center;
+  transition: all 0.4s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+.night-toggle .sun .ray:nth-child(1) { transform: rotate(0deg) translateY(-12px); }
+.night-toggle .sun .ray:nth-child(2) { transform: rotate(45deg) translateY(-12px); }
+.night-toggle .sun .ray:nth-child(3) { transform: rotate(90deg) translateY(-12px); }
+.night-toggle .sun .ray:nth-child(4) { transform: rotate(135deg) translateY(-12px); }
+.night-toggle .sun .ray:nth-child(5) { transform: rotate(180deg) translateY(-12px); }
+.night-toggle .sun .ray:nth-child(6) { transform: rotate(225deg) translateY(-12px); }
+.night-toggle .sun .ray:nth-child(7) { transform: rotate(270deg) translateY(-12px); }
+.night-toggle .sun .ray:nth-child(8) { transform: rotate(315deg) translateY(-12px); }
+.night-toggle .moon {
+  width: 24px;
+  height: 24px;
+  position: relative;
+  transform: scale(0);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+.night-toggle.dark {
+  transform: translateY(-50%);
+}
+.night-toggle.dark:hover {
+  background: rgba(255,255,255,0.1);
+}
+.night-toggle.dark .sun {
+  transform: scale(0);
+  opacity: 0;
+}
+.night-toggle.dark .moon {
+  transform: scale(1);
+  opacity: 1;
+}
+.night-toggle:focus {
+  outline: none;
+}
