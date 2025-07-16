@@ -3,40 +3,9 @@ import { useEffect, useState } from 'react';
 
 const Footer = () => {
   const [mounted, setMounted] = useState(false);
-  const [isDark, setIsDark] = useState(false);
   const router = useRouter();
   const [headerReady, setHeaderReady] = useState(false);
   
-  useEffect(() => {
-    // Check for dark mode preference
-    const checkDarkMode = () => {
-      const isDarkMode = document.documentElement.classList.contains('dark') || 
-                        (typeof window !== 'undefined' && 
-                         window.matchMedia && 
-                         window.matchMedia('(prefers-color-scheme: dark)').matches);
-      setIsDark(isDarkMode);
-    };
-    
-    // Initial check
-    checkDarkMode();
-    
-    // Watch for changes
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    mediaQuery.addEventListener('change', checkDarkMode);
-    
-    // Check when theme changes (for Next.js theme provider)
-    const observer = new MutationObserver(checkDarkMode);
-    observer.observe(document.documentElement, { 
-      attributes: true, 
-      attributeFilter: ['class'] 
-    });
-    
-    return () => {
-      mediaQuery.removeEventListener('change', checkDarkMode);
-      observer.disconnect();
-    };
-  }, []);
-
   useEffect(() => {
     setMounted(true);
     // Small delay to ensure the header animation is complete
@@ -49,7 +18,7 @@ const Footer = () => {
   if (!mounted) return null;
 
   return (
-    <footer className={`contact-footer ${headerReady ? 'upfade-enter' : 'upfade-init'} ${isDark ? 'dark-mode' : ''}`}>
+    <footer className={`contact-footer ${headerReady ? 'upfade-enter' : 'upfade-init'}`}>
       <div className="contact-links">
         <a 
           href="https://www.linkedin.com/in/sanat-samal/" 
@@ -117,14 +86,16 @@ const Footer = () => {
           background: var(--hover-bg);
         }
         
-        /* Hover effect for both light and dark modes */
-        .contact-link:hover svg {
-          stroke: var(--accent-color);
+        /* Base styles for the SVG icons */
+        .contact-link svg {
+          transition: all 0.3s ease;
+          stroke: var(--text-secondary);
         }
         
-        /* Dark mode hover */
-        .dark-mode .contact-link:hover svg {
-          stroke: #ffffff !important;
+        /* Hover effect */
+        .contact-link:hover svg {
+          stroke: var(--text-primary);
+          transform: translateY(-3px);
         }
         
         .contact-link svg {
