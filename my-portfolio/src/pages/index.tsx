@@ -196,7 +196,7 @@ export default function Home() {
           </ul>
 
           <p className="about-me-text">
-            When I&apos;m not coding, you can find me on the basketball court, playing soccer, or strumming my guitar. I&apos;m particularly excited about AI&apos;s potential to transform human-computer interaction and am always looking for opportunities to push the boundaries of what's possible with technology.
+            When I&apos;m not coding, you can find me on the basketball court, playing soccer, or strumming my guitar. I&apos;m particularly excited about AI&apos;s potential to transform human-computer interaction and am always looking for opportunities to push the boundaries of what&apos;s possible with technology.
           </p>
         </div>
       </section>
