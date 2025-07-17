@@ -31,7 +31,15 @@ export default function Projects() {
 
   useEffect(() => {
     const color = darkMode ? '#000' : '#f8f4ec';
+    const primary = darkMode ? '#eaeaea' : '#26324b';
+    const secondary = darkMode ? '#cccccc' : '#444444';
+    const hoverBg = darkMode ? 'transparent' : 'rgba(0,0,0,0.05)';
+
     document.body.style.background = color;
+    const root = document.documentElement;
+    root.style.setProperty('--text-primary', primary);
+    root.style.setProperty('--text-secondary', secondary);
+    root.style.setProperty('--hover-bg', hoverBg);
   }, [darkMode]);
 
   return (

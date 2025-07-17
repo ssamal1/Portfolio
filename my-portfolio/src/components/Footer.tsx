@@ -89,13 +89,17 @@ const Footer = () => {
         /* Base styles for the SVG icons */
         .contact-link svg {
           transition: all 0.3s ease;
-          stroke: var(--text-secondary);
+          stroke: var(--text-secondary, #666);
         }
         
         /* Hover effect */
         .contact-link:hover svg {
-          stroke: var(--text-primary);
+          stroke: var(--text-primary, #000);
           transform: translateY(-3px);
+        }
+        
+        :global(.dark) .contact-link:hover svg {
+          stroke: #fff;
         }
         
         .contact-link svg {
