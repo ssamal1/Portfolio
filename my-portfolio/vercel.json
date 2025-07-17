@@ -3,14 +3,25 @@
   "builds": [
     {
       "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": ".next"
-      }
+      "use": "@vercel/next"
     }
   ],
   "routes": [
-    { "handle": "filesystem" },
-    { "src": "/.*", "dest": "/index.html" }
+    {
+      "src": "/_next/static/(?:[^/]+/pages|chunks|runtime|css|media)/.+\\.(js|css|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|otf)",
+      "dest": "/_next/static/$1"
+    },
+    {
+      "src": "/_next/data/.+\\.json",
+      "dest": "/_next/data/$1"
+    },
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
   ]
 }
