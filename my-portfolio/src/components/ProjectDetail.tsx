@@ -127,6 +127,7 @@ const ProjectDetail = () => {
     'covid-funding': {
       title: 'COVID-19 Funding Impact Analysis',
       description: 'Spatiotemporal analysis of CARES Act effectiveness in California',
+      github: 'https://github.com/ssamal1/California-Covid-Hotspot-Modeling',
       paperUrl: 'https://drive.google.com/file/d/1IvfyvAF1mJjXNod-Fong7IAb8dGBKWyS/view?usp=sharing',
       details: [
         'Conducted geospatial analysis of $30.75B in CARES Act funding across California counties using Moran\'s I statistic and kNN-weighted spatial autocorrelation',

@@ -65,7 +65,7 @@ export default function Projects() {
           <Link href="/projects/upnow" passHref legacyBehavior>
             <div className="project-card">
               <h3>UpNow</h3>
-              <p>An iOS alarm app that generates and adapts unique AI-composed melodies based on your wake-up patterns to help you wake up more naturally.</p>
+              <p>An iOS alarm app that generates unique AI melodies that adapt to your sleep patterns for better wake-up experiences.</p>
             </div>
           </Link>
           <Link href="/projects/thia" passHref legacyBehavior>
