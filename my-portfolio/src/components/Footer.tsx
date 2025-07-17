@@ -1,9 +1,7 @@
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 const Footer = () => {
   const [mounted, setMounted] = useState(false);
-  const router = useRouter();
   const [headerReady, setHeaderReady] = useState(false);
   
   useEffect(() => {

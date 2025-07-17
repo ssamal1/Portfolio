@@ -61,14 +61,6 @@ export default function Home() {
   }, []);
 
   // Glassy translucent header in dark mode
-  const headerStyle = darkMode ? {
-    background: 'rgba(0,0,0,0.45)',
-    border: '1.5px solid rgba(255,255,255,0.35)',
-    boxShadow: '0 8px 40px 0 rgba(0,0,0,0.60), 0 2px 24px 0 rgba(255,255,255,0.08)',
-    color: '#ffffff',
-    WebkitBackdropFilter: 'blur(26px) saturate(1.6)',
-    backdropFilter: 'blur(26px) saturate(1.6)'
-  } : {}
 
   // Sync page background via CSS variable for full-page coverage
   useEffect(() => {
@@ -90,7 +82,7 @@ export default function Home() {
       }, 500)
     }, 3000)
     return () => clearInterval(interval)
-  }, [])
+  }, [words.length])
 
   return (
     <>
@@ -185,7 +177,7 @@ export default function Home() {
         <h2 className="about-title">About Me</h2>
         <div className="about-me-content">
           <p className="about-me-text">
-            I'm a Computer Science student at UC San Diego (Regents Scholar) with a passion for building impactful technology. I thrive at the intersection of rigorous problem-solving and creative exploration, whether I'm developing systems, training machine learning models, or prototyping new ideas.
+            I&apos;m a Computer Science student at UC San Diego (Regents Scholar) with a passion for building impactful technology. I thrive at the intersection of rigorous problem-solving and creative exploration, whether I&apos;m developing systems, training machine learning models, or prototyping new ideas.
           </p>
           
           <p className="about-me-text">
@@ -204,7 +196,7 @@ export default function Home() {
           </ul>
 
           <p className="about-me-text">
-            When I'm not coding, you can find me on the basketball court, playing soccer, or strumming my guitar. I'm particularly excited about AI's potential to transform human-computer interaction and am always looking for opportunities to push the boundaries of what's possible with technology.
+            When I&apos;m not coding, you can find me on the basketball court, playing soccer, or strumming my guitar. I&apos;m particularly excited about AI&apos;s potential to transform human-computer interaction and am always looking for opportunities to push the boundaries of what's possible with technology.
           </p>
         </div>
       </section>
