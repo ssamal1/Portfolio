@@ -12,12 +12,8 @@
       "dest": "/_next/static/$1"
     },
     {
-      "src": "/_next/data/.+\\.json",
-      "dest": "/_next/data/$1"
-    },
-    {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
+      "src": "/_next/data/([^/]+?)/([^/]+?)\\.json",
+      "dest": "/_next/data/$1/$2.json"
     },
     {
       "src": "/(.*)",
